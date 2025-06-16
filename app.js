@@ -1,3 +1,4 @@
+const ejsMate = require('ejs-mate')
 const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
@@ -15,6 +16,7 @@ mongoose.connect('mongodb://127.0.0.1/spotwise')
         console.log(err)
     });
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
