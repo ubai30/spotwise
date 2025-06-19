@@ -1,5 +1,6 @@
-const ejsMate = require('ejs-mate')
+const ejsMate = require('ejs-mate');
 const express = require('express');
+const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const wrapAsync = require('./utils/wrapAsync');
@@ -64,8 +65,16 @@ app.delete('/places/:id', wrapAsync(async (req, res) => {
     res.redirect('/places');
 }))
 
+// Catch-all 404 route
+app.all('/*splat', (req, res, next) => {
+  next(new ExpressError('Page not found', 404));
+});
+
+// Global error handler middleware
 app.use((err, req, res, next) => {
-    res.status(500).send('Something broke!');
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'Oh no, something went wrong!'
+  res.status(statusCode).render('error', { err })
 })
 
 app.listen(3000, () => {
