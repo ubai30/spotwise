@@ -10,7 +10,6 @@ const app = express();
 
 // models
 const Place = require('./models/place');
-const { placeSchema } = require('./schemas/place');
 
 // Schemas
 const { placeSchema } = require('./schemas/place');
