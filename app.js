@@ -14,6 +14,7 @@ const Review = require('./models/review');
 
 // Schemas
 const { placeSchema } = require('./schemas/place');
+const { reviewSchema } = require('./schemas/review');
 
 // connect to mongodb
 mongoose.connect('mongodb://127.0.0.1/spotwise')
@@ -33,6 +34,16 @@ app.use(methodOverride('_method'));
 
 const validatePlace = (req, res, next) => {
     const { error } = placeSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        return next(new ExpressError(msg, 400))
+    } else {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         return next(new ExpressError(msg, 400))
@@ -80,7 +91,7 @@ app.delete('/places/:id', wrapAsync(async (req, res) => {
     res.redirect('/places');
 }))
 
-app.post('/places/:id/reviews', wrapAsync(async (req, res) => {
+app.post('/places/:id/reviews', validateReview, wrapAsync(async (req, res) => {
     const review = new Review(req.body.review);
     const place = await Place.findById(req.params.id);
     place.reviews.push(review);
