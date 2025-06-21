@@ -100,6 +100,13 @@ app.post('/places/:id/reviews', validateReview, wrapAsync(async (req, res) => {
     res.redirect(`/places/${req.params.id}`);
 }))
 
+app.delete('/places/:place_id/reviews/:review_id', wrapAsync(async (req, res) => {
+    const { place_id, review_id } = req.params;
+    await Place.findByIdAndUpdate(place_id, { $pull: {reviews: { review_id}}});
+    await Review.findByIdAndDelete(review_id);
+    res.redirect(`/places/${req.params.place_id}`);
+}))
+
 // Catch-all 404 route
 app.all('/*splat', (req, res, next) => {
   next(new ExpressError('Page not found', 404));
