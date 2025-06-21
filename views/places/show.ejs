@@ -13,7 +13,7 @@
                 <li class="list-group-item"><%= place.price %></li>
             </ul>
             <div class="card-body">
-                <a href="/places/<%= place._id %>" class="card-link btn btn-warning text-white">Edit</a>
+                <a href="/places/<%= place._id %>/edit" class="card-link btn btn-warning text-white">Edit</a>
                 <form action="/places/<%= place._id %>?_method=DELETE" method="post" style="display: inline!important">
                     <button class="btn btn-danger">Delete</button>
                 </form>
