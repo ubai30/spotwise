@@ -9,7 +9,7 @@ module.exports =(redirectUrl = '/' ) => {
 
         const id = req.params[paramId];
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            req.flash('error_msg', 'Invalid Id / Data not found');
+            req.flash('error_msg', 'Invalid Id or data not found');
             return res.redirect(redirectUrl);
         }
 
