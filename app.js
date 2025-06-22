@@ -6,11 +6,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
 
-
-
-
-
-
 // connect to mongodb
 mongoose.connect('mongodb://127.0.0.1/spotwise')
     .then((result) => {
@@ -26,8 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 // middleware
 app.use(express.urlencoded({ extended: true}));
 app.use(methodOverride('_method'));
-
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -35,8 +29,6 @@ app.get('/', (req, res) => {
 
 app.use('/places', require('./routes/places'));
 app.use('/places/:place_id/reviews', require('./routes/reviews'));
-
-
 
 // Catch-all 404 route
 app.all('/*splat', (req, res, next) => {
