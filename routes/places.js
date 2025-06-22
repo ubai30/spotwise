@@ -28,6 +28,7 @@ router.get('/create', (req, res) => {
 router.post('/', validatePlace, wrapAsync(async (req, res, next) => {
     const place = new Place(req.body.place);
     await place.save();
+    req.flash('success_msg', 'Place added successfully');
     res.redirect('/places');
 }))
 
