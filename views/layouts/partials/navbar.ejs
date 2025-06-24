@@ -19,12 +19,14 @@
                 </ul>
 
                 <ul class="navbar-nav">
+                    <% if(!currentUser) { %>
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/register">Register</a>
                     </li>
+                    <% } else { %>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout" onclick="
                             event.preventDefault();
@@ -32,6 +34,7 @@
                             >Logout</a>
                         <form action="/logout" method="post" style="display: none;" id="logout-form"></form>
                     </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
