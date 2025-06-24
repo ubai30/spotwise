@@ -154,23 +154,26 @@ async function seedPlaces() {
         }
     ]
 
-  const newPlace = await Promise.all(places.map(async (place) => {
-     let geoData = await hereMaps.geometry(place.location);
-     if (!geoData) {
-         geoData = { type: 'Point', coordinates: [116.32883, -8.90952] }
-     }
-     return {
-         ...place,
-         author: '643d36579773b789e91ef660',
-         images: {
-             url: 'public\\images\\image-1681876521153-260851838.jpg',
-             filename: 'image-1681876521153-260851838.jpg'
-         },
-         geometry: { ...geoData }
-     }
- }))
+//   const newPlace = await Promise.all(places.map(async (place) => {
+//      let geoData = await hereMaps.geometry(place.location);
+//      if (!geoData) {
+//          geoData = { type: 'Point', coordinates: [116.32883, -8.90952] }
+//      }
+//      return {
+//          ...place,
+//          author: '643d36579773b789e91ef660',
+//          images: {
+//              url: 'public\\images\\image-1681876521153-260851838.jpg',
+//              filename: 'image-1681876521153-260851838.jpg'
+//          },
+//          geometry: { ...geoData }
+//      }
+//  }))
 
      try {
+        const newPlace = places.map(place => {
+            return { ...place, author: '685b33d96eabe90eb9f34717' }
+        })
          await Place.deleteMany({});
          await Place.insertMany(newPlace);
          console.log('Data berhasil disimpan');
