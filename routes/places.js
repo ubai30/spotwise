@@ -5,7 +5,7 @@ const wrapAsync = require('../utils/wrapAsync');
 const ExpressError = require('../utils/ExpressError');
 const isValidObjectId = require('../middlewares/isValidObjectId');
 const isAuth = require('../middlewares/isAuth');
-const { isAuthorPlace } = require('../middlewares/isAuthor');
+const { isAuthorPlace, isAuthorReview } = require('../middlewares/isAuthor');
 
 const router = express.Router();
 
@@ -36,7 +36,14 @@ router.post('/', isAuth, validatePlace, wrapAsync(async (req, res, next) => {
 }))
 
 router.get('/:id', isValidObjectId('/places'), wrapAsync(async (req, res) => {
-    const place = await Place.findById(req.params.id).populate('reviews').populate('author');
+    const place = await Place.findById(req.params.id)
+        .populate({
+            path: 'reviews',
+            populate: {
+                path: 'author'
+            }
+        })
+        .populate('author');
     res.render('places/show', { place });
 }))
 
